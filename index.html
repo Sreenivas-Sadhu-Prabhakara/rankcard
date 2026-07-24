@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/rankcard/">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A free, offline result sheet maker for tuition and coaching classes. Type a class's test marks into one fast grid; get each student's total, percentage, your grade, and rank, plus the class average and a printable A4 result sheet for every parent. Local-first — your students' marks never leave your computer. This demo stores nothing.">
+
+  <meta property="og:title" content="Tuition Class Result Sheet — Offline & Local-First — rankcard">
+  <meta property="og:description" content="One fast grid → totals, %, your grades, ranks, class average, and an A4 result sheet per parent. Offline; a class of children's marks never leaves your machine.">
+  <meta property="og:type" content="website">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="rankcard">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <title>Tuition Class Result Sheet — Offline & Local-First — rankcard</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    :root { color-scheme: light dark; }
+    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    #seo-landing { max-width: 780px; margin: 0 auto; padding: 24px 20px 8px; line-height: 1.55;
+      color: #16233B; background: #F8F8F5; }
+    #seo-landing h1 { font-size: 1.55rem; color: #C0362C; margin: 0 0 10px; line-height: 1.25; }
+    #seo-landing h2 { font-size: 1.08rem; margin: 22px 0 6px; }
+    #seo-landing code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px;
+      font-variant-numeric: tabular-nums; }
+    #seo-landing table { border-collapse: collapse; margin: 8px 0; font-variant-numeric: tabular-nums; }
+    #seo-landing th, #seo-landing td { border: 1px solid #9DB0C6; padding: 4px 10px; text-align: right; }
+    #seo-landing th:first-child, #seo-landing td:first-child { text-align: left; }
+    #seo-landing .wedge { border-left: 3px solid #C0362C; padding: 4px 12px; margin: 14px 0;
+      background: rgba(192,54,44,0.06); }
+    #flutter-app { height: 80vh; min-height: 480px; border-top: 3px solid #C0362C; }
+    @media (prefers-color-scheme: dark) {
+      #seo-landing { color: #EDEDE6; background: #10192B; }
+      #seo-landing h1 { color: #EF6F62; }
+      #seo-landing code { background: rgba(255,255,255,0.12); }
+      #seo-landing th, #seo-landing td { border-color: #4A5A72; }
+      #seo-landing .wedge { border-left-color: #EF6F62; background: rgba(239,111,98,0.10); }
+    }
+  </style>
+
+  <!-- Crawlable structured data: the Flutter canvas is not indexable, so the
+       facts live in real HTML + JSON-LD. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "rankcard",
+    "applicationCategory": "EducationApplication",
+    "operatingSystem": "Web, Windows, macOS, Linux, Android, iOS",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+    "description": "An offline, local-first result sheet maker for tuition and coaching classes: enter a class's test marks in one grid and get each student's total, percentage, teacher-defined grade, and rank, the class average, and a printable A4 result sheet per parent."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How are each student's percentage and rank worked out?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Total is the sum of the marks you type. Percentage is total divided by the sum of all subjects' maximum marks, times 100, rounded to two decimals. Rank uses standard competition ranking on the total: students with a higher total rank above; ties share a rank and the next rank skips. All of it is plain arithmetic on the marks you enter — nothing is estimated." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this an official marksheet or a board result?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. rankcard is a class result sheet for parents, not an official document, and it makes no board or exam-authority claim. The grade bands and pass marks are entirely yours — you define them per test. It never assumes a CBSE, state, GPA or CGPA policy." }
+      },
+      {
+        "@type": "Question",
+        "name": "Where is my class's data stored?",
+        "acceptedAnswer": { "@type": "Answer", "text": "In the full app, in a single SQLite file on your own computer; the app runs on localhost and nothing is uploaded, synced, or sent anywhere. A class of children's names and marks never leaves your machine — that is the whole point. This web demo keeps everything in your browser tab and stores nothing server-side (refresh resets it)." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does an absent paper affect the result?",
+        "acceptedAnswer": { "@type": "Answer", "text": "An absent paper is counted as zero for the total, percentage, and rank, and is labelled AB on the sheet. This is an app rule, not a board rule. Because a zero lowers the rank, edit the score if the student later sat a make-up paper." }
+      },
+      {
+        "@type": "Question",
+        "name": "Next unit test, do I have to type the whole class again?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Because the full app keeps your classes on your machine, you reopen last term's class and add a new test — you re-enter only the new marks, never the roster. Browser 'result maker' tools that forget everything on refresh make you retype the class each time; rankcard does not." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <main id="seo-landing">
+    <h1>A result sheet maker for tuition &amp; coaching classes that keeps your students' marks on your own computer</h1>
+    <p><strong>rankcard</strong> lets a tuition or coaching-class teacher type a
+    whole class's test marks into one fast keyboard grid and get, for every
+    student, a <strong>total, percentage, your grade, and rank</strong> — plus
+    the class average and a one-page <strong>A4 result sheet to print for each
+    parent</strong>. It is free, offline, and single-purpose: no account, no
+    upload, no ERP.</p>
+
+    <div class="wedge">
+      <strong>Why not a spreadsheet or a browser result maker?</strong>
+      Two reasons. First, <strong>your data stays yours</strong>: a class of
+      children's names and marks lives in a file on your computer and is never
+      uploaded or synced. Second, <strong>it persists</strong> — reopen last
+      term's class next unit test and re-enter only the new marks; nothing is
+      retyped. One-shot browser tools forget the roster the moment you refresh.
+    </div>
+
+    <h2>How the result sheet is worked out</h2>
+    <p>Total is the sum of the marks you type (an absent paper counts as
+    <code>0</code>, labelled <code>AB</code>). Percentage is
+    <code>total ÷ total-max × 100</code>, rounded to two decimals. The grade is
+    read from <em>your</em> bands using that rounded percentage, so the number
+    and the letter always agree. Rank is standard competition ranking on the
+    total (ties share a rank; the next rank skips).</p>
+
+    <h2>Worked example</h2>
+    <p>A 3-subject test (each out of 100), grade bands
+    <code>90=A+, 80=A, 70=B, 60=C, 50=D, 0=F</code>:</p>
+    <table>
+      <thead><tr><th>Student</th><th>Math</th><th>Sci</th><th>Eng</th><th>Total</th><th>%</th><th>Grade</th><th>Rank</th></tr></thead>
+      <tbody>
+        <tr><td>Asha</td><td>90</td><td>85</td><td>95</td><td>270</td><td>90.00</td><td>A+</td><td>1</td></tr>
+        <tr><td>Bala</td><td>80</td><td>88</td><td>78</td><td>246</td><td>82.00</td><td>A</td><td>2</td></tr>
+        <tr><td>Chitra</td><td>88</td><td>80</td><td>78</td><td>246</td><td>82.00</td><td>A</td><td>2</td></tr>
+        <tr><td>Dev</td><td>60</td><td>65</td><td>70</td><td>195</td><td>65.00</td><td>C</td><td>4</td></tr>
+        <tr><td>Esha</td><td>45</td><td>50</td><td>40</td><td>135</td><td>45.00</td><td>F</td><td>5</td></tr>
+      </tbody>
+    </table>
+    <p>Class average <code>72.80%</code> · Bala and Chitra tie at rank 2, so the
+    next student is rank 4 — that is competition ranking.</p>
+
+    <h2>What rankcard is not</h2>
+    <p>It is not a marksheet, certificate, or official document; not a board or
+    grading-policy tool (your bands, your pass marks); and not an ERP — no fees,
+    attendance, timetable, logins, or messaging. It is a <em>student result sheet
+    maker</em> in the plain sense of the phrase, but built around persistence and
+    privacy rather than a one-time print.</p>
+
+    <h2>Try it below</h2>
+    <p>The grid below is loaded with a sample class. Edit it, add your own, and
+    print the cards — nothing you type here is saved or sent.</p>
+  </main>
+
+  <div id="flutter-app"></div>
+
+  <script src="flutter.js" defer></script>
+  <script>
+    window.addEventListener('load', function () {
+      _flutter.loader.load({
+        onEntrypointLoaded: async function (engineInitializer) {
+          const appRunner = await engineInitializer.initializeEngine({
+            hostElement: document.getElementById('flutter-app')
+          });
+          await appRunner.runApp();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
